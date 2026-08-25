@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+     EDIT ME: page title shown in the browser tab + search results
+     ============================================================ -->
+<title>Daniel Segal — Mechanical Engineer</title>
+<meta name="description" content="Portfolio of Daniel Segal — mechanical engineer working across hardware and software.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     THEME — change these four values to re-skin the whole site
+     ============================================================ */
+  :root {
+    --paper:  #EDEBE4;   /* background */
+    --ink:    #15140F;   /* main text  */
+    --muted:  #6B675C;   /* secondary text */
+    --accent: #2B4EFF;   /* links, highlights */
+
+    --line: rgba(21,20,15,0.14);
+    --card: #F6F4EE;
+    --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+    --maxw: 1120px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--accent); color: var(--paper); }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* ---------------- Header ---------------- */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(8px);
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 18px 24px; max-width: var(--maxw); margin: 0 auto;
+  }
+  .nav .mark { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; }
+  .nav ul { display: flex; gap: 28px; list-style: none; }
+  .nav ul a { font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); transition: color 0.2s; }
+  .nav ul a:hover, .nav ul a:focus-visible { color: var(--ink); }
+  @media (max-width: 620px) { .nav ul { display: none; } }
+
+  /* ---------------- Hero ---------------- */
+  .hero { padding: clamp(64px, 13vw, 140px) 0 clamp(40px, 8vw, 84px); }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2.5rem, 8vw, 5.6rem); line-height: 0.98;
+    letter-spacing: -0.03em; max-width: 17ch;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero p.lede { margin-top: 26px; font-size: clamp(1.05rem, 2.2vw, 1.35rem); max-width: 50ch; }
+  .hero .meta { margin-top: 32px; display: flex; gap: 26px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); }
+  .hero .meta a { border-bottom: 1px solid var(--line); padding-bottom: 2px; transition: border-color 0.2s, color 0.2s; }
+  .hero .meta a:hover, .hero .meta a:focus-visible { color: var(--accent); border-color: var(--accent); }
+
+  /* ---------------- Section frame ---------------- */
+  section { padding: clamp(48px, 8vw, 96px) 0; }
+  .sec-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-top: 1px solid var(--ink); padding-top: 16px; margin-bottom: 36px;
+  }
+  .sec-head h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.3rem, 3vw, 1.9rem); letter-spacing: -0.01em; }
+
+  /* ---------------- Project cards ---------------- */
+  /* To add a project: copy one <article class="card"> ... </article>
+     block, paste it, update the text + links, and (optional) point the
+     <img src> at a file you put in an /images folder in the repo.       */
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; gap: 22px; } }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(21,20,15,0.10); }
+
+  /* Image / render area. Replace the src with your own file.
+     If the image is missing, a labelled placeholder shows instead. */
+  .thumb {
+    position: relative; aspect-ratio: 16/10; background: #E4E1D7;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb .thumb-label { display: none; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); padding: 0 16px; text-align: center; }
+  .thumb.empty .thumb-label { display: block; }
+
+  .card-body { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+  .card .discipline { color: var(--accent); margin-bottom: 10px; }
+  .card h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.3rem, 2.6vw, 1.7rem); letter-spacing: -0.02em; line-height: 1.08; }
+  .card .desc { margin-top: 12px; color: var(--muted); flex: 1; }
+  .card .tags { margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .card .tags span { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; }
+  .card .links { margin-top: 20px; display: flex; gap: 20px; }
+  .card .links a { font-family: var(--font-mono); font-size: 0.8rem; border-bottom: 1px solid var(--ink); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; }
+  .card .links a:hover, .card .links a:focus-visible { color: var(--accent); border-color: var(--accent); }
+
+  /* ---------------- About ---------------- */
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
+  .about-grid p { font-size: 1.08rem; max-width: 56ch; }
+  .about-grid p + p { margin-top: 18px; }
+  .skills { list-style: none; font-family: var(--font-mono); font-size: 0.85rem; }
+  .skills li { padding: 8px 0; border-bottom: 1px solid var(--line); color: var(--muted); display: flex; justify-content: space-between; gap: 16px; }
+  .skills li strong { color: var(--ink); font-weight: 500; }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+  /* ---------------- Footer / contact ---------------- */
+  footer { padding: clamp(56px, 10vw, 116px) 0 64px; }
+  footer h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 7vw, 4.4rem); letter-spacing: -0.03em; line-height: 1; }
+  footer h2 a { color: var(--accent); }
+  footer h2 a:hover { text-decoration: underline; text-underline-offset: 6px; }
+  .foot-row { margin-top: 40px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+  .foot-row a:hover { color: var(--accent); }
+
+  /* ---------------- Scroll reveal + a11y ---------------- */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .card { transition: none; }
+  }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     YOUR PROJECTS — edit this list to manage your work.
+     This is the only part of the file you need to touch.
+
+     Each { ... } block is one project card, shown in this order.
+
+     ADD A PROJECT:   copy a block (from { to }, including the comma),
+                      paste it, and change the fields.
+     CHANGE AN IMAGE: put the file in the "images" folder and set
+                      "image" to its path, e.g. "images/my-photo.jpg".
+                      Until the file exists, the card shows a small
+                      placeholder naming the file it's waiting for.
+
+     Keep the commas between blocks and the quotes around text.
+     ============================================================ -->
+<script>
+const PROJECTS = [
+
+  {
+    title: "Automated Sample Retrieval System",
+    discipline: "Mechanical Design · In progress",
+    image: "images/sample-retrieval.jpg",
+    description:
+      "The mechanical design of a system that automatically retrieves and returns samples in a lab. Built on 80/20 aluminum extrusion and designed to be modular — the system scales by bolting on another sub-module rather than being rebuilt, so capacity grows with demand. Modeled in Autodesk Fusion.",
+    tags: ["Mechanical design", "80/20 extrusion", "Modular design", "Autodesk Fusion"],
+    links: [
+      { label: "Renders", url: "#" }
+    ]
+  },
+
+  {
+    title: "Arrow",
+    discipline: "Software · AI · Electronics",
+    image: "images/arrow.jpg",
+    description:
+      "An AI-assisted design tool for analog electronics. Arrow generates a circuit from a design intent and verifies it against its spec with a deterministic engine — the circuit is structurally validated, simulated in ngspice, measured, and graded — so a design is checked against physics rather than trusted on faith.",
+    tags: ["Python", "ngspice / SPICE", "FastAPI", "LLMs"],
+    links: [
+      { label: "Writeup", url: "#" },
+      { label: "Code", url: "#" }
+    ]
+  }
+
+  /* ---- To add a project, copy this block, uncomment it, and edit
+          it (note the leading comma):
+
+  ,{
+    title: "New Project",
+    discipline: "Mechanical · Software",
+    image: "images/new-project.jpg",
+    description: "One short paragraph about the project.",
+    tags: ["Tag one", "Tag two"],
+    links: [
+      { label: "Code", url: "#" }
+    ]
+  }
+
+  ---- */
+
+];
+</script>
+
+<!-- HEADER — EDIT ME: your initials + section links -->
+<header>
+  <nav class="nav wrap" style="padding-left:0;padding-right:0;">
+    <a class="mark" href="#top">DS.</a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO — EDIT ME: your name, one-line pitch, links -->
+  <section class="hero wrap">
+    <p class="eyebrow reveal">Mechanical Engineer — Hardware &amp; Software</p>
+    <h1 class="reveal">I design <span class="accent">physical things</span> and the code that runs them.</h1>
+    <p class="lede reveal">
+      I'm Daniel Segal, a mechanical engineer who works across the whole stack —
+      from CAD and analysis to firmware and controls. A selection of projects below.
+    </p>
+    <div class="meta reveal">
+      <a href="https://github.com/danielsegal02">GitHub ↗</a>
+      <a href="mailto:danielsegal02@gmail.com">danielsegal02@gmail.com</a>
+      <a href="https://www.linkedin.com/in/daniel-segal2/">LinkedIn ↗</a>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       WORK — the cards here are generated from the PROJECTS list
+       at the top of this file. You don't edit this section to
+       manage projects: scroll up and edit that list instead.
+       ========================================================== -->
+  <section id="work" class="wrap">
+    <div class="sec-head reveal">
+      <h2>Selected work</h2>
+      <span class="eyebrow" id="work-count"></span>
+    </div>
+
+    <div class="grid" id="work-grid"></div>
+  </section>
+
+  <!-- ABOUT — EDIT ME -->
+  <section id="about" class="wrap">
+    <div class="sec-head reveal"><h2>About</h2></div>
+    <div class="about-grid reveal">
+      <div>
+        <p>My background is in biomedical engineering, with earlier work in nanotechnology and surgical and scientific device research. I now work as an automation engineer, designing the mechanical and control systems that automate the production of fiber optic devices.</p>
+        <p>What interests me most is lab automation and the place where hardware, software, data, and UX overlap — building systems that make precise, repeatable work faster and more reliable for the people who depend on them. If that lines up with what you're working on, I'd be glad to hear from you.</p>
+      </div>
+      <ul class="skills">
+        <li><strong>Design</strong><span>SolidWorks · Fusion 360 · KiCad</span></li>
+        <li><strong>Analysis</strong><span>COMSOL · MATLAB</span></li>
+        <li><strong>Software</strong><span>Python · C++</span></li>
+        <li><strong>Making</strong><span>CNC · 3D printing · Nanofabrication</span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTACT / FOOTER — EDIT ME -->
+<footer id="contact" class="wrap">
+  <div class="reveal">
+    <p class="eyebrow" style="margin-bottom:20px;">Get in touch</p>
+  </div>
+  <div class="foot-row reveal">
+    <span>© <span id="year"></span> Daniel Segal</span>
+    <span>
+      <a href="https://github.com/danielsegal02">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/daniel-segal2/">LinkedIn</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  // Escape user text so characters like & or < can't break the markup.
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, c => (
+      { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+    ));
+  }
+
+  // Build the project cards from the PROJECTS list at the top of the file.
+  function renderProjects() {
+    const grid = document.getElementById('work-grid');
+    if (!grid || typeof PROJECTS === 'undefined') return;
+
+    grid.innerHTML = PROJECTS.map(p => {
+      const tags = (p.tags || []).map(t => `<span>${esc(t)}</span>`).join('');
+      const links = (p.links || [])
+        .map(l => `<a href="${esc(l.url)}">${esc(l.label)} ↗</a>`).join('');
+      const alt = esc(p.alt || p.title || '');
+      const img = esc(p.image || '');
+      return `
+        <article class="card reveal">
+          <figure class="thumb">
+            <img src="${img}" alt="${alt}"
+                 onerror="this.closest('.thumb').classList.add('empty'); this.remove();">
+            <span class="thumb-label">Add ${img}</span>
+          </figure>
+          <div class="card-body">
+            <p class="eyebrow discipline">${esc(p.discipline || '')}</p>
+            <h3>${esc(p.title || '')}</h3>
+            <p class="desc">${esc(p.description || '')}</p>
+            <div class="tags">${tags}</div>
+            <div class="links">${links}</div>
+          </div>
+        </article>`;
+    }).join('');
+
+    // Keep the "NN projects" count in sync with the list automatically.
+    const count = document.getElementById('work-count');
+    if (count) {
+      const n = PROJECTS.length;
+      count.textContent = `${String(n).padStart(2, '0')} project${n === 1 ? '' : 's'}`;
+    }
+  }
+
+  renderProjects();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Fade elements in as they scroll into view (runs after cards exist).
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
