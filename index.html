@@ -102,6 +102,7 @@
   @media (max-width: 760px) { .grid { grid-template-columns: 1fr; gap: 22px; } }
 
   .card {
+    position: relative;
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 14px;
@@ -110,6 +111,15 @@
     transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s;
   }
   .card:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(21,20,15,0.10); }
+
+  /* Whole-tile link: an invisible anchor stretched over the card. Real links
+     inside the card (below) sit above it via z-index, so they stay clickable. */
+  .card.is-linked { cursor: pointer; }
+  .card .card-cover { position: absolute; inset: 0; z-index: 1; }
+  .card.is-linked:hover h3 { color: var(--accent); }
+  .card .card-cover:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 14px;
+  }
 
   /* Image / render area. Replace the src with your own file.
      If the image is missing, a labelled placeholder shows instead. */
@@ -128,7 +138,7 @@
   .card .desc { margin-top: 12px; color: var(--muted); flex: 1; }
   .card .tags { margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
   .card .tags span { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; }
-  .card .links { margin-top: 20px; display: flex; gap: 20px; }
+  .card .links { position: relative; z-index: 2; margin-top: 20px; display: flex; gap: 20px; }
   .card .links a { font-family: var(--font-mono); font-size: 0.8rem; border-bottom: 1px solid var(--ink); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; }
   .card .links a:hover, .card .links a:focus-visible { color: var(--accent); border-color: var(--accent); }
 
@@ -175,6 +185,10 @@
                       "image" to its path, e.g. "images/my-photo.jpg".
                       Until the file exists, the card shows a small
                       placeholder naming the file it's waiting for.
+     LINK A TILE:     set "repo" to the project's GitHub URL. The whole
+                      tile becomes clickable and opens it in a new tab.
+                      Leave "repo" as "" (or delete the line) for a
+                      tile that isn't clickable.
 
      Keep the commas between blocks and the quotes around text.
      ============================================================ -->
@@ -185,6 +199,7 @@ const PROJECTS = [
     title: "Automated Sample Retrieval System",
     discipline: "Mechanical Design · In progress",
     image: "images/sample-retrieval.jpg",
+    repo: "https://github.com/danielsegal02/asrs",
     description:
       "The mechanical design of a system that automatically retrieves and returns samples in a lab. Built on 80/20 aluminum extrusion and designed to be modular — the system scales by bolting on another sub-module rather than being rebuilt, so capacity grows with demand. Modeled in Autodesk Fusion.",
     tags: ["Mechanical design", "Modular design", "Autodesk Fusion"],
@@ -197,12 +212,12 @@ const PROJECTS = [
     title: "Arrow",
     discipline: "Software · AI · Electronics",
     image: "images/arrow.jpg",
+    repo: "https://github.com/danielsegal02/arrow",
     description:
       "An AI-assisted design tool for analog electronics. Arrow generates a circuit from a design intent and verifies it against its spec with a deterministic engine — the circuit is structurally validated, simulated in ngspice, measured, and graded — so a design is checked against physics rather than trusted on faith.",
     tags: ["Python", "ngspice / SPICE", "FastAPI", "LLMs"],
     links: [
-      { label: "Writeup", url: "#" },
-      { label: "Code", url: "#" }
+      { label: "Writeup", url: "#" }
     ]
   }
 
@@ -213,6 +228,7 @@ const PROJECTS = [
     title: "New Project",
     discipline: "Mechanical · Software",
     image: "images/new-project.jpg",
+    repo: "https://github.com/danielsegal02/your-repo",
     description: "One short paragraph about the project.",
     tags: ["Tag one", "Tag two"],
     links: [
@@ -242,7 +258,7 @@ const PROJECTS = [
   <!-- HERO — EDIT ME: your name, one-line pitch, links -->
   <section class="hero wrap">
     <p class="eyebrow reveal">Mechanical Engineer — Hardware &amp; Software</p>
-    <h1 class="reveal">I design <span class="accent">machines</span> and the code that runs them.</h1>
+    <h1 class="reveal">I design <span class="accent">physical things</span> and the code that runs them.</h1>
     <p class="lede reveal">
       I'm Daniel Segal, a mechanical engineer who works across the whole stack —
       from CAD and analysis to firmware and controls. A selection of projects below.
@@ -320,8 +336,16 @@ const PROJECTS = [
         .map(l => `<a href="${esc(l.url)}">${esc(l.label)} ↗</a>`).join('');
       const alt = esc(p.alt || p.title || '');
       const img = esc(p.image || '');
+
+      // If a repo URL is set, the whole tile links to it (opens in a new tab).
+      const repo = (p.repo && p.repo.trim() && p.repo.trim() !== '#') ? p.repo.trim() : '';
+      const cover = repo
+        ? `<a class="card-cover" href="${esc(repo)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(p.title || 'Project')} — open repository"></a>`
+        : '';
+
       return `
-        <article class="card reveal">
+        <article class="card reveal${repo ? ' is-linked' : ''}">
+          ${cover}
           <figure class="thumb">
             <img src="${img}" alt="${alt}"
                  onerror="this.closest('.thumb').classList.add('empty'); this.remove();">
